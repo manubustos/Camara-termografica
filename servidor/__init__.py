@@ -44,14 +44,16 @@ def cargarImagen():
 
 @app.route('/lee_datos')
 def lee_datos(): # Se utiliza para que ejecute la funcion leer datos    
-    lector.iniciar()
-    lector.leer()
-    lector.verificar()
-    lector.min_max()
+#    lector.iniciar()
+#    lector.leer()
+#    lector.verificar()
+#    lector.min_max()
     try:
         cargarImagen()
-    except:
-        pass
+    except Exception as e:
+        print("\n----------------------------------------------------------")
+        print(e)
+        print("----------------------------------------------------------\n")
     return render_template('lee_datos.html')
 
 @app.route('/quien-soy')
