@@ -1,0 +1,195 @@
+/*Custom css */
+
+.navbar-brand{
+    padding-left: 10% !important;
+    display:flex;
+    align-items:center;
+}
+
+.footer-item{
+    padding-right: 20px;
+}
+
+.awesome-icon{
+    padding: 20px 20px 0px 0px;
+}
+
+.hr{
+    width:80%;
+    margin-left: 10%;
+    border:2px solid #ccc;
+}
+
+
+.blog-footer {
+    padding: 2.5rem 0;
+    color: #999;
+    text-align: center;
+    background-color: #333;
+    border-top: .05rem solid #e5e5e5;
+    width: 100%;
+}
+.nav-item {
+    font-family: 'Carrois Gothic';
+    font-weight: 400;
+    color: red;
+}
+body {
+    padding: 0;
+    font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
+}
+
+footer{
+  right: 0;
+  bottom: 0;
+  left: 0;
+  padding: 1rem;
+  background-color: rgb(230, 230, 230);
+  text-align: center;
+}
+
+.bd-callout-warning h4 {
+    color: #774292 !important;
+}
+.bd-callout {
+    -moz-border-bottom-colors: none;
+    -moz-border-left-colors: none;
+    -moz-border-right-colors: none;
+    -moz-border-top-colors: none;
+    border-color: #eee;
+    border-image: none;
+    border-radius: 0.25rem;
+    border-style: solid;
+    border-width: 1px 1px 1px 0.25rem;
+    margin-bottom: 1.25rem;
+    margin-top: 1.25rem;
+    padding: 1.25rem;
+}
+.disabled{
+    cursor: not-allowed;
+}
+.badge {
+    background-color: #555555;
+    font-size: 14px;
+    padding: 6px 10px;
+    font-weight: 500;
+}
+.labelPanel{
+    font-family: 'Cabin', sans-serif;
+    font-size: 20;
+}
+#botonNaranja{
+    background-color: #FF7E00;
+    border-color: #FF7E00; 
+    box-shadow: none;
+    cursor: pointer;
+}
+#botonNaranja:hover{
+    background-color: #FF8B00 !important;
+    border-color: #FF8B00;
+}
+#botonVioleta {
+    background-color: #774292;
+    border-color: #774292; 
+    box-shadow: none;
+    cursor: pointer;
+}
+#botonVioleta:hover {
+    background-color: #9669ad !important;
+    border-color: #9669ad;
+}
+
+.source-link {
+    background: #774292 none repeat scroll 0 0;
+    color: #fff;
+    font-size: 15px;
+    padding: 6px 15px 8px;
+    position: relative;
+    z-index: 9;
+    font-family: "Source Sans Pro",sans-serif;
+    line-height: 1.42857;
+}
+.source-link a {
+    color: #fff !important;
+    text-decoration: underline;
+}
+a.panel:hover {
+    background-color: #9669ad;
+}
+a.panel:focus{
+    background-color: #9669ad;
+}
+.text-primary {
+    color: #774292 !important;
+}
+a.panel:active{
+    color: #000 !important;
+}
+.leaf a{
+    color: #774292 !important; 
+    padding-right: 25px !important;
+}
+.leaf:hover a{
+    color: #9669ad !important;
+    padding-right: 25px !important;
+}
+.jumbotron_bar {
+    background: none !important; 
+    padding: 24px 0 !important;
+}
+.form-control {
+    font-size: 14px;
+    height: 40px;
+}
+.custom-select {
+    -moz-appearance: none;
+    background: #fff url("data:image/svg+xml;charset=utf8,%3Csvg xmlns=\'http://www.w3.org/2000/svg\' viewBox=\'0 0 4 5\'%3E%3Cpath fill=\'%23333\' d=\'M2 0L0 2h4zm0 5L0 3h4z\'/%3E%3C/svg%3E") no-repeat scroll right 0.75rem center / 8px 10px;
+    border: 1px solid rgba(0, 0, 0, 0.15);
+    border-radius: 0.25rem;
+    color: #495057;
+    display: inline-block;
+    height: calc(2.25rem + 2px);
+    line-height: 1.25;
+    max-width: 100%;
+    padding: 0.375rem 1.75rem 0.375rem 0.75rem;
+    vertical-align: middle;
+}
+   
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
