@@ -12,7 +12,7 @@
 */
 // Incluye las librerías para poder controlar los servos y el sensor.
 #include <Servo.h>
-#include <Adafruit_MLX90614.h>
+#include "Adafruit_MLX90614.h"
 
 // Variables para controlar los servos
 Servo servoEjeX;
