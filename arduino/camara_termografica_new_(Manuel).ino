@@ -11,6 +11,9 @@ int contEscaneo;
 boolean flagPositivo;
 boolean flagTerminoDesplazamientoX;
 
+const int ledAvisoC = 6;
+const int ledAvisoD = 5;
+
 enum State
 {
     Init,
@@ -29,9 +32,6 @@ enum Input
 
 State currentState;
 Input currentInput;
-
-const int ledAvisoC = 6;
-const int ledAvisoD = 5;
 
 void setup()
 {
@@ -65,7 +65,7 @@ void start(){
 
     // Inicia los servos para que comiencen a funcionar con los respectivos pines
     servoEjeX.attach(10);
-    servoEjeY.attach(3);
+    servoEjeY.attach(9);
 
     // Inicializa servo ejeX en 0° y el ejeY en 180°
     servoEjeX.write(0);
@@ -103,8 +103,13 @@ void escanear()
 
     if (flagTerminoDesplazamientoX)
     {
-        desplazarY();
-        Serial.print("#####");
+        if(desplazamiento > 0)
+        {
+            desplazarY();
+            Serial.println("#####");
+        }
+        else
+            currentState = State::Init;
     }
 }
 
@@ -123,7 +128,7 @@ void escanearX()
  * que termino el desplazamiento en X.*/
 void escaneoPositivo()
 {
-    Serial.print(sensor.readObjectTempC()); // Leo temperatura °C y la envio al puerto serie
+    Serial.println(sensor.readObjectTempC()); // Leo temperatura °C y la envio al puerto serie
 
     contEscaneo++;
     if (contEscaneo!=179)
@@ -142,7 +147,7 @@ void escaneoPositivo()
  * que termino el desplazamiento en X.*/
 void escaneoNegativo()
 {
-    Serial.print(sensor.readObjectTempC()); // Leo temperatura °C y la envio al puerto serie
+    Serial.println(sensor.readObjectTempC()); // Leo temperatura °C y la envio al puerto serie
 
     contEscaneo--;
     if (contEscaneo!=0)
