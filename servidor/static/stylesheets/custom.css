@@ -37,6 +37,7 @@
 body {
     padding: 0;
     font-family: "Roboto","Helvetica Neue","Helvetica","Arial",sans-serif;
+    position:relative;
 }
 
 footer{
@@ -46,6 +47,16 @@ footer{
   padding: 1rem;
   background-color: rgb(230, 230, 230);
   text-align: center;
+  position:absolute;
+}
+
+.display{
+    font-size: 60px;
+    padding: 0 !important;
+}
+
+.panel-center{
+    margin: 0 auto;
 }
 
 .bd-callout-warning h4 {

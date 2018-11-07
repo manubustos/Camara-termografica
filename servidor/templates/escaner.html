@@ -1,0 +1,78 @@
+<html>
+<head>
+  <meta charset="utf-8">
+
+  <link type="text/css" rel="stylesheet" href="../static/bootstrap/css/bootstrap.css" media="all">
+
+  <link type="text/css" rel="stylesheet" href="../static/fonts/fontawesome/css/all.css">
+  <link type="text/css" rel="stylesheet" href="../static/stylesheets/style1.min.css" media="all">
+
+  <link type="text/css" rel="stylesheet" href="../static/stylesheets/custom.css" media="all">
+  <link rel="stylesheet" href="../static/stylesheets/merienda-one.css">
+
+  <script src="../static/js/jquery-3.js"></script>
+  <script src="../static/js/chronometer.js"></script>
+  <script src="../static/js/countdown.js"></script>
+
+  <title>Escaner | Cámara Termográfica</title>
+</head>
+
+<body>
+  <header>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+      <a class="navbar-brand" href="/">
+        <img class="logo" src="../static/images/logo_TermoTech01.png">
+      </a>
+    </nav>
+  </header>
+
+  <main>
+    <section>
+      <div class="container">
+        <div class="col-10 panel-center">
+          <div class="panel panel-default">
+            <div class="panel-body">
+              
+              <div class="row">
+                <div class="col-4 display text-center">
+                  <span id="hor">00</span>:<span id="min">00</span>:<span id="seg">00</span>
+                </div>
+                <div class="col-4 text-center">
+                  <img src="../static/images/loading.gif" style="width:40%;">
+                </div>
+                <div class="col-4 display text-center">
+                  <span id="hor">00</span>:<span id="min">00</span>:<span id="seg">00</span>
+                </div>
+              </div>
+          
+              <div class="text-center" style="margin-top:25px;">
+                <a  id="btn_play" type="button" class="btn btn-light">
+                  <span class="fas fa-play"></span>
+                </a>
+                <a  id="btn_pause" type="button" class="btn btn-light">
+                  <span class="fas fa-pause"></span>
+                </a>
+                <a  id="btn_stop" type="button" class="btn btn-light">
+                  <span class="fas fa-stop" ></span>
+                </a>
+              </div>
+
+              Porcentaje Escaneado: <span class="badge" id="porcentaje">0%</span>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <a class="footer-item" href="/">Inicio</a>
+    <a class="footer-item" href="ayuda">Ayuda</a>
+    <a class="footer-item" href="quien-soy">¿Quién lo realizó?</a>
+    <a class="footer-item" href="camara">Cámara</a>
+  </footer>
+
+</body>
+</html>

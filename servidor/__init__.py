@@ -2,9 +2,11 @@ from flask import Flask
 from flask import render_template
 from flask import request
 import creador
-import lector_datos as lector 
+import lector_datos as lector
+import serial
 
 app = Flask(__name__)
+ser = serial.Serial('COM3', 9600, timeout=0)
 
 @app.route('/')
 def index():
@@ -35,6 +37,10 @@ def camara():
     return render_template('camara.html',resultado=ver_resultado,tempmin = temperaturamin,
                             tempmax=temperaturamax,tiempo=tiempo,porcentaje=porcentaje)
 
+@app.route('/escaner')
+def escaner():
+    return render_template('escaner.html')
+
 @app.route('/ayuda')
 def comoSeHace():
     return render_template('ayuda.html')
@@ -54,7 +60,11 @@ def lee_datos(): # Se utiliza para que ejecute la funcion leer datos
         print("\n----------------------------------------------------------")
         print(e)
         print("----------------------------------------------------------\n")
-    return render_template('lee_datos.html')
+    return render_template('escaner.html')
+
+def escaner(self):
+    comando = self.request.get('comando')
+    ser.write(comando)
 
 @app.route('/quien-soy')
 def quienSoy():

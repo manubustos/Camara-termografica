@@ -14,11 +14,14 @@ boolean flagTerminoDesplazamientoX;
 const int ledAvisoC = 6;
 const int ledAvisoD = 5;
 
+double temperaturas[36][180];
+
 enum State
 {
     Init,
     Wait,
-    Scan
+    Scan,
+    Send
 };
 
 enum Input
@@ -51,6 +54,8 @@ void loop()
             break;
         case State::Scan:
             escanear();
+        case State::Send:
+            enviar();
         default:
             break;
     }
@@ -106,7 +111,7 @@ void escanear()
         if(desplazamiento > 0)
         {
             desplazarY();
-            Serial.println("#####");
+            //Serial.println("#####");
         }
         else
             currentState = State::Init;
@@ -128,7 +133,8 @@ void escanearX()
  * que termino el desplazamiento en X.*/
 void escaneoPositivo()
 {
-    Serial.println(sensor.readObjectTempC()); // Leo temperatura °C y la envio al puerto serie
+    //Serial.println(sensor.readObjectTempC()); // Leo temperatura °C y la envio al puerto serie
+    temperaturas[desplazamiento][contEscaneo] = sensor.readObjectTempC();
 
     contEscaneo++;
     if (contEscaneo!=179)
@@ -147,7 +153,8 @@ void escaneoPositivo()
  * que termino el desplazamiento en X.*/
 void escaneoNegativo()
 {
-    Serial.println(sensor.readObjectTempC()); // Leo temperatura °C y la envio al puerto serie
+    //Serial.println(sensor.readObjectTempC()); // Leo temperatura °C y la envio al puerto serie
+    temperaturas[desplazamiento][contEscaneo] = sensor.readObjectTempC();
 
     contEscaneo--;
     if (contEscaneo!=0)
@@ -169,6 +176,21 @@ void desplazarY()
     desplazamiento = desplazamiento-5;
     servoEjeY.write(desplazamiento);
     flagTerminoDesplazamientoX=false;
+}
+
+//--------------Función de escritura en el puerto serie--------------//
+void enviar()
+{
+    //for(int i=0; i<36; i++)
+        //for(int j=0; j<180; j++)
+    for(int i=0; i<36; i++)
+    {
+        while(Serial.availableForWrite() != 0); // Espero a que haya espacio para escribir
+        Serial.print(temperaturas[i], sizeof(temperaturas[i])); //Imprimo todo un arreglo entero
+        Serial.print("#####");
+    }
+
+    currentState = State::Init;
 }
 
 //--------------Función de lectura del puerto serie--------------//
@@ -197,20 +219,20 @@ void MEF_Update()
 {
     switch (currentState)
     {
-    case State::Init: currentState = State::Wait; break;
-    case State::Wait:
-        if(currentInput == Input::Start)
-            currentState = State::Scan;
-        else if(currentInput == Input::Stop)
-            currentState = State::Init;
-        break;
-    case State::Scan:
-        if(currentInput == Input::Pause)
-            currentState = State::Wait;
-        else if(currentInput == Input::Stop)
-            currentState = State::Init;
-        break;
-    default:
-        break;
+        case State::Init: currentState = State::Wait; break;
+        case State::Wait:
+            if(currentInput == Input::Start)
+                currentState = State::Scan;
+            else if(currentInput == Input::Stop)
+                currentState = State::Init;
+            break;
+        case State::Scan:
+            if(currentInput == Input::Pause)
+                currentState = State::Wait;
+            else if(currentInput == Input::Stop)
+                currentState = State::Init;
+            break;
+        default:
+            break;
     }
 }
