@@ -11,6 +11,10 @@ $(document).ready(function(){
   
   var iniciado = false;
 
+  document.getElementById("btn_play").onclick = function() {start()};
+  document.getElementById("btn_pause").onclick = function() {pause()};
+  document.getElementById("btn_stop").onclick = function() {stop()};
+
   function start_cron()
   {
     cron = setInterval(function()
@@ -50,46 +54,44 @@ $(document).ready(function(){
     }, 1000);
   }
 
-  $('#btn_play').on('click', iniciar);
-  function iniciar(){
+  function start(){
     if(!iniciado)
     {
       iniciado = true;
-      $.post( "escaner", function( data ){
-        $( "#comando" ).html(1);
-      });
+
+      var comando = "1";
+      $.post( "/enviarArduino", {"comando": comando});
+
       start_cron();
     }
   }
 
-  $("#btn_pause").click(function(){
+  function pause(){
     if(iniciado)
     {
-      $.post( "escaner", function( data ){
-        $( "#comando" ).html(2);
-      });
-      clearInterval(cron);
       iniciado = false;
-    }
-  });
 
-  $("#btn_stop").click(function(){
-    if(iniciado)
-    {
-      sv_min = 0;
-      sv_hor = 0;
-      sv_seg = 0;
+      var comando = "2";
+      $.post( "/enviarArduino", {"comando": comando});
 
-      seg.innerHTML = "00";
-      min.innerHTML = "00";
-      hor.innerHTML = "00";
-
-      $.post( "escaner", function( data ){
-        $( "#comando" ).html(2);
-      });
       clearInterval(cron);
-      iniciado = false;
     }
-  });
+  }
+
+  function stop(){
+    sv_min = 0;
+    sv_hor = 0;
+    sv_seg = 0;
+
+    seg.innerHTML = "00";
+    min.innerHTML = "00";
+    hor.innerHTML = "00";
+
+    var comando = "3";
+    $.post( "/enviarArduino", {"comando": comando});
+
+    iniciado = false;
+    clearInterval(cron);
+  }
 
 });

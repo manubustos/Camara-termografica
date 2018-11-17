@@ -14,14 +14,11 @@ boolean flagTerminoDesplazamientoX;
 const int ledAvisoC = 6;
 const int ledAvisoD = 5;
 
-double temperaturas[36][180];
-
 enum State
 {
     Init,
     Wait,
-    Scan,
-    Send
+    Scan
 };
 
 enum Input
@@ -38,6 +35,18 @@ Input currentInput;
 
 void setup()
 {
+    Serial.begin(9600);
+
+    // Inicia los servos para que comiencen a funcionar con los respectivos pines
+    servoEjeX.attach(10);
+    servoEjeY.attach(9);
+
+     // Inicia los leds como salida y para que comiencen apagados
+    pinMode(6,OUTPUT);
+    pinMode(5,OUTPUT);
+    digitalWrite(ledAvisoD,LOW);
+    digitalWrite(ledAvisoC,LOW);
+    
     currentState = State::Init;
 }
 
@@ -54,8 +63,6 @@ void loop()
             break;
         case State::Scan:
             escanear();
-        case State::Send:
-            enviar();
         default:
             break;
     }
@@ -66,21 +73,10 @@ void loop()
 
 void start(){
 
-    Serial.begin(9600);
-
-    // Inicia los servos para que comiencen a funcionar con los respectivos pines
-    servoEjeX.attach(10);
-    servoEjeY.attach(9);
-
     // Inicializa servo ejeX en 0° y el ejeY en 180°
     servoEjeX.write(0);
     servoEjeY.write(180);
     
-     // Inicia los leds como salida y para que comiencen apagados
-    pinMode(6,OUTPUT);
-    pinMode(5,OUTPUT);
-    digitalWrite(ledAvisoD,LOW);
-    digitalWrite(ledAvisoC,LOW);
     avisoEncendido();
 
     desplazamiento = 180; //variable global que ira descontando la posicion del servo del ejeY
@@ -133,8 +129,7 @@ void escanearX()
  * que termino el desplazamiento en X.*/
 void escaneoPositivo()
 {
-    //Serial.println(sensor.readObjectTempC()); // Leo temperatura °C y la envio al puerto serie
-    temperaturas[desplazamiento][contEscaneo] = sensor.readObjectTempC();
+    Serial.println(sensor.readObjectTempC()); // Leo temperatura °C y la envio al puerto serie
 
     contEscaneo++;
     if (contEscaneo!=179)
@@ -153,8 +148,7 @@ void escaneoPositivo()
  * que termino el desplazamiento en X.*/
 void escaneoNegativo()
 {
-    //Serial.println(sensor.readObjectTempC()); // Leo temperatura °C y la envio al puerto serie
-    temperaturas[desplazamiento][contEscaneo] = sensor.readObjectTempC();
+    Serial.println(sensor.readObjectTempC()); // Leo temperatura °C y la envio al puerto serie
 
     contEscaneo--;
     if (contEscaneo!=0)
@@ -178,21 +172,6 @@ void desplazarY()
     flagTerminoDesplazamientoX=false;
 }
 
-//--------------Función de escritura en el puerto serie--------------//
-void enviar()
-{
-    //for(int i=0; i<36; i++)
-        //for(int j=0; j<180; j++)
-    for(int i=0; i<36; i++)
-    {
-        while(Serial.availableForWrite() != 0); // Espero a que haya espacio para escribir
-        Serial.print(temperaturas[i], sizeof(temperaturas[i])); //Imprimo todo un arreglo entero
-        Serial.print("#####");
-    }
-
-    currentState = State::Init;
-}
-
 //--------------Función de lectura del puerto serie--------------//
 boolean readInput()
 {
@@ -200,18 +179,21 @@ boolean readInput()
 
     if (Serial.available())
     {
-        char incomingChar = Serial.read();
+        char incomingChar = Serial.read() - '0';
 
         switch (incomingChar)
         {
-            case '1': currentInput = Input::Start; break;
-            case '2': currentInput = Input::Pause; break;
-            case '3': currentInput = Input::Stop; break;
+            case 1: currentInput = Input::Start; break;
+            case 2: currentInput = Input::Pause; break;
+            case 3: currentInput = Input::Stop; break;
             default: break;
         }
-        return true;
     }
-    return false;
+
+    if(currentInput == Input::Unknown)
+        return false;
+    else
+        return true;
 }
 
 //--------------Función para cambiar el estado y realizar llamar a las funciones--------------//
@@ -224,15 +206,32 @@ void MEF_Update()
             if(currentInput == Input::Start)
                 currentState = State::Scan;
             else if(currentInput == Input::Stop)
+            {
+                for(int i=0; i<50;i++)
+                    Serial.print("@@"); // Enviar señal de finalizacion al servidor
+                    
                 currentState = State::Init;
+            }
             break;
         case State::Scan:
             if(currentInput == Input::Pause)
                 currentState = State::Wait;
             else if(currentInput == Input::Stop)
+            {
+                for(int i=0; i<50;i++)
+                    Serial.print("@@"); // Enviar señal de finalizacion al servidor
+                    
                 currentState = State::Init;
+            }
             break;
         default:
             break;
     }
+}
+
+void enviar(double temperatura)
+{
+  while(Serial.availableForWrite() < 8);
+
+  Serial.print(temperatura); // Envio la temperatura al puerto serie
 }

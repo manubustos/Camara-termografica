@@ -6,7 +6,7 @@ import lector_datos as lector
 import serial
 
 app = Flask(__name__)
-ser = serial.Serial('COM3', 9600, timeout=0)
+#ser = serial.Serial('/dev/ttyUSB1')#, 9600, timeout=0)
 
 @app.route('/')
 def index():
@@ -39,6 +39,7 @@ def camara():
 
 @app.route('/escaner')
 def escaner():
+    lector.iniciar()
     return render_template('escaner.html')
 
 @app.route('/ayuda')
@@ -62,9 +63,20 @@ def lee_datos(): # Se utiliza para que ejecute la funcion leer datos
         print("----------------------------------------------------------\n")
     return render_template('escaner.html')
 
-def escaner(self):
-    comando = self.request.get('comando')
-    ser.write(comando)
+@app.route('/enviarArduino', methods=['POST'])
+def enviarArduino():
+    comando = request.form['comando']
+    if comando == '1':
+        lector.enviar('1')
+        #lector.leer()
+
+    if comando == '2':
+        lector.enviar('2')
+
+    if comando == '3':
+        lector.enviar('3')
+
+    return '', 204
 
 @app.route('/quien-soy')
 def quienSoy():

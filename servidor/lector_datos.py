@@ -5,6 +5,8 @@ import serial
 import time
 import numpy as np
 
+ser = serial.Serial('/dev/ttyUSB1')#, 9600, timeout=0)
+
 def iniciar(): # Genera los dos archivos de texto vacios
     with open("datos.txt", "w") as file: # Todos los datos que lee del puerto serie, con o sin errores
         file.write("")
@@ -15,10 +17,9 @@ def leer(): # Lee los datos del puerto serie y los escribe en datos.txt
     minimo = 999
     maximo = -999
 
-    ser = serial.Serial('COM3', 9600, timeout=0) # Con timeout se podria seleccionar el COM3 o COM4 automaticamente
     #Leo el primer dato
     try:
-        dato = ser.read(5)
+        dato = ser.read(8)
         print (dato)
     except:
         print('No se pudo leer el dato')
@@ -30,7 +31,7 @@ def leer(): # Lee los datos del puerto serie y los escribe en datos.txt
     while ("@" not in dato):
         if (dato != ""):
             try:
-                dato = ser.read(5)
+                dato = ser.read(8)
                 print (dato)
             except:
                 print('No se pudo leer el dato')
@@ -52,7 +53,8 @@ def leer(): # Lee los datos del puerto serie y los escribe en datos.txt
             try:
                 with open("datos.txt", "a") as file:
                     file.write("{0}\n".format(dato))
-                dato = ser.read(5)
+
+                dato = ser.read(8)
                 print (dato)
             except:
                 print('No se pudo leer el dato')
@@ -196,3 +198,6 @@ def min_max(): # Calcula las temperatura minima y maxima de los datos verificado
             pass
     with open("temperaturas.txt", "a") as f: #guardo un fin en el archivo de temperaturas para habilitar el boton ver Resultado
         f.write("fin")
+
+def enviar(comando):
+    ser.write(comando)
