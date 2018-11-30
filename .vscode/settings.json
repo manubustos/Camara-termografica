@@ -1,6 +1,4 @@
 {
-  "python.pythonPath": "C:\\Users\\Equipo\\AppData\\Local\\Programs\\Python\\Python37\\python.exe",
+  "python.pythonPath": "/usr/bin/python",
   "python.linting.pylintEnabled": false,
-  "arduino.path": "/home/manuel/Descargas/arduino-1.8.7/",
-  "arduino.enableUSBDetection": true
 }
