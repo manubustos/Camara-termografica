@@ -1,10 +1,10 @@
 #include <Wire.h>
-#include <Servo.h>
 #include "Adafruit_MLX90614.h"
+#include <Servo.h>
 
+Adafruit_MLX90614 sensor = Adafruit_MLX90614();
 Servo servoEjeX;
 Servo servoEjeY;
-Adafruit_MLX90614 sensor = Adafruit_MLX90614();
 
 int desplazamiento;
 int contEscaneo;
@@ -69,10 +69,10 @@ void start(){
     // Inicializa servo ejeX en 0° y el ejeY en 180°
     servoEjeX.write(0);
     delay(40);
-    servoEjeY.write(10);
+    servoEjeY.write(180);
     delay(40);
     
-    desplazamiento = 10; //variable global que ira descontando la posicion del servo del ejeY
+    desplazamiento = 180; //variable global que ira descontando la posicion del servo del ejeY
     flagPositivo = true;//variable que me indica que el movimiento sera hacia la derecha
     flagTerminoDesplazamientoX = false; //variable que me permite saber cuando termino un desplazamiento en el eje X.
     contEscaneo = 0;//contador para la cantidad de veces que lo tengo que hacer
@@ -89,12 +89,14 @@ void escanear()
         if(desplazamiento > 0)
         {
             desplazarY();
-            Serial.println("#####"); // Marca de fin de línea
+            Serial.print("#####"); // Marca de fin de línea
+            delay(40);
         }
         else
         {
-          Serial.println("#####"); // Marca de fin de línea
-          Serial.println("@@@@@"); // Marca de fin de lectura
+          Serial.print("#####"); // Marca de fin de línea
+          delay(40);
+          Serial.print("@@@@@"); // Marca de fin de lectura
           currentState = State::Init;
         }
     }
@@ -115,10 +117,10 @@ void escanearX()
  * que termino el desplazamiento en X.*/
 void escaneoPositivo()
 {
-    Serial.println(sensor.readObjectTempC()); // Leo temperatura °C y la envio al puerto serie
+    Serial.print(sensor.readObjectTempC()); // Leo temperatura °C y la envio al puerto serie
 
     contEscaneo++;
-    if (contEscaneo!=179)
+    if (contEscaneo < 180)
         servoEjeX.write(contEscaneo); // Desplaza al ángulo correspondiente
     else
     {
@@ -134,10 +136,10 @@ void escaneoPositivo()
  * que termino el desplazamiento en X.*/
 void escaneoNegativo()
 {
-    Serial.println(sensor.readObjectTempC()); // Leo temperatura °C y la envio al puerto serie
+    Serial.print(sensor.readObjectTempC()); // Leo temperatura °C y la envio al puerto serie
 
     contEscaneo--;
-    if (contEscaneo!=0)
+    if (contEscaneo > 0)
         servoEjeX.write(contEscaneo); // Desplaza al ángulo correspondiente
     else
     {
@@ -194,7 +196,7 @@ void MEF_Update()
                 currentState = State::Scan;
             else if(currentInput == Input::Stop)
             {
-                Serial.println("@@@@@"); // Marca de fin de lectura
+                Serial.print("@@@@@"); // Marca de fin de lectura
                 currentState = State::Init;
             }
             break;
@@ -203,7 +205,7 @@ void MEF_Update()
                 currentState = State::Wait;
             else if(currentInput == Input::Stop)
             {
-                Serial.println("@@@@@"); // Marca de fin de lectura
+                Serial.print("@@@@@"); // Marca de fin de lectura
                 currentState = State::Init;
             }
             break;
@@ -216,5 +218,5 @@ void enviar(double temperatura)
 {
   while(Serial.availableForWrite() < 8);
 
-  Serial.println(temperatura); // Envio la temperatura al puerto serie
+  Serial.print(temperatura); // Envio la temperatura al puerto serie
 }

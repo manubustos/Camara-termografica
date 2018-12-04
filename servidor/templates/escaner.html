@@ -11,7 +11,7 @@
   <link rel="stylesheet" href="../static/stylesheets/merienda-one.css">
 
   <script src="../static/js/jquery-3.3.1.min.js"></script>
-  <script src="../static/js/chronometer.js"></script>
+  <script src="../static/js/index.js"></script>
   <script src="../static/js/countdown.js"></script>
 
   <title>Escaner | Cámara Termográfica</title>
@@ -40,9 +40,6 @@
                 <div class="col-4 text-center">
                   <img src="../static/images/loading.gif" style="width:40%;">
                 </div>
-                <div class="col-4 display text-center">
-                  <span id="hor">00</span>:<span id="min">00</span>:<span id="seg">00</span>
-                </div>
               </div>
           
               <div class="text-center" style="margin-top:25px;">
@@ -59,6 +56,10 @@
 
               Porcentaje Escaneado: <span class="badge" id="porcentaje">0%</span>
 
+            </div>
+
+            <div class="panel-body text-center" style="visibility: hidden;" id="img-container">
+                <img id="imagen">
             </div>
           </div>
         </div>
