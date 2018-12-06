@@ -41,7 +41,6 @@ def getPorcentaje():
     porc = lector.getPorcentaje()
     return jsonify({"porcentaje": porc})
 
-
 @app.route('/quien-soy')
 def quienSoy():
     return render_template('quien-soy.html')

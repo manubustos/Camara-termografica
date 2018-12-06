@@ -2,6 +2,7 @@ $(document).ready(function(){
 
   var cron;
   var showP;
+  var showImage;
   var sv_min = 0;
   var sv_hor = 0;
   var sv_seg = 0;
@@ -63,8 +64,29 @@ $(document).ready(function(){
     showP = setInterval(function()
     {
       $.get("/getPorcentaje", function(data){
-        porc.innerHTML = Math.round(data['porcentaje'])+"%"
-        //console.log(data['porcentaje']);
+        if(data['porcentaje'] != -1)
+        {
+          porc.innerHTML = Math.round(data['porcentaje'])+"%"
+          console.log(data['porcentaje']);
+        }
+        else
+        {
+          console.log(data['porcentaje']);
+          sv_min = 0;
+          sv_hor = 0;
+          sv_seg = 0;
+      
+          porc.innerHTML = "0%";
+          seg.innerHTML = "00";
+          min.innerHTML = "00";
+          hor.innerHTML = "00";
+      
+          iniciado = false;
+          clearInterval(cron);
+          clearInterval(showP);
+          imagen.src = "../static/images/imagen.png";
+          container.style.visibility = "visible";      
+        }
       });
     }, 1000);
   }
@@ -113,8 +135,17 @@ $(document).ready(function(){
     iniciado = false;
     clearInterval(cron);
     clearInterval(showP);
-    imagen.src = "../static/images/imagen.png";
-    container.style.visibility = "visible";
-  }
 
+    var cont = 0;
+    showImage = setInterval(function()
+    {
+      if(cont == 1)
+      {
+        imagen.src = "../static/images/imagen.png";
+        container.style.visibility = "visible";
+        clearInterval(showImage);
+      }
+      cont++;
+    }, 1000);
+  }
 });

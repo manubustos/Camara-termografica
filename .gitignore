@@ -7,3 +7,4 @@ servidor/templates/resultado.html
 servidor/temperaturas.txt
 servidor/__pycache__/**
 servidor/venv/**
+vscode/

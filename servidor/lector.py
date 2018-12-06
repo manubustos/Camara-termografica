@@ -2,13 +2,16 @@ import serial
 import numpy as np
 import creador
 
-ser = serial.Serial('/dev/ttyUSB1')
+ser = serial.Serial('/dev/ttyUSB0')
 
 leidos = 0
+termino = 0
 
 def leer():
     global leidos
+    global termino
 
+    termino = 0
     matriz = np.full((37,180), 20.00)
     fila = 36
     columna = 179
@@ -53,14 +56,8 @@ def leer():
     
     print("Se va a crear la imagen")
     creador.crear_imagen(matriz)
-    #imprimirMatriz(matriz)
     leidos = 0
-
-def imprimirMatriz(matriz):
-    for y in range(32,36):
-        for x in range(0,179):
-            print(matriz[y][x]),
-        print('')
+    termino = 1
 
 def obtenerMatriz():
     return matriz
@@ -70,5 +67,10 @@ def enviar(comando):
 
 def getPorcentaje():
     global leidos
-    porc = ( leidos / (37.00 * 180.00)) * 100.00
-    return porc
+    global termino
+    porc = (leidos / (37.00 * 180.00)) * 100.00
+    if(termino == 1):
+        termino = 0
+        return -1
+    else:
+        return porc
